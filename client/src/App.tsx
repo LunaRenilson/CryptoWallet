@@ -1,14 +1,22 @@
 import './App.css'
 import { WalletService } from './services/WalletService.ts'
 import { useEffect, useState, useRef } from 'react'
+import { runSimulation } from './scripts/run.ts'
 
 function App() {
-
 	const walletService = useRef(new WalletService('http://localhost:8545', "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80")).current
 
 	const [userWallet, setUserWallet] = useState<any>(null)
 	const [userBalance, setUserBalance] = useState<string>("")
 	const [users, setUsers] = useState<Array<any>>([])
+
+	const runit = () => {
+		runSimulation().then(address => {
+			console.log('Lunaris contract address from simulation:', address)
+		}).catch(err => {
+			console.error('Error running simulation:', err)
+		})
+	}
 
 	const copyToClipboard = async (text: string) => {
 		try {
@@ -120,6 +128,7 @@ function App() {
 
 			<div className="App flex flex-col gap-y-5 justify-center items-center">
 				<h1>Crypto Wallet</h1>
+				<button onClick={runit}><small>Run Lunaris Deployment Simulation</small></button>
 				{!userWallet &&
 					<div className='flex flex-col gap-4'>
 						<button onClick={createWallet}>Create Wallet</button>

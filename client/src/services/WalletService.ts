@@ -27,6 +27,7 @@ export class WalletService {
             to: this.wallet.address,
             value: ethAmout
         });
+        
         await tx?.wait();
         return this.wallet;
     }
