@@ -2,10 +2,10 @@
 pragma solidity ^0.8.28;
 
 contract Lunaris {
+
     mapping(address => uint256) private _balances;
     // Wallet -> Spender -> Amount
     mapping(address => mapping(address => uint256)) private _allowances;
-
     event Transfer(address indexed _from, address indexed _to, uint256 _value);
     event approval(address indexed _owner, address indexed _spender, uint256 _value);
 
