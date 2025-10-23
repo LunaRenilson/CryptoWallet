@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "@nomicfoundation/hardhat-network-helpers": "^3.0.1"
+  }
+}
