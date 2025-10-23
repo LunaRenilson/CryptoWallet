@@ -12,6 +12,15 @@ function App() {
 	const [userWallet, setuserWallet] = useState<any>(null)
 	const [userBalance, setUserBalance] = useState<string>("")
 
+	const copyToClipboard = async (text: string) => {
+		try {
+			await navigator.clipboard.writeText(text);
+			alert('Conteúdo copiado!');
+		} catch (err) {
+			console.error('Failed to copy: ', err);
+		}
+	};
+
 	const createWallet = async () => {
 		const w = walletService.createWallet()
 		setuserWallet(w)
@@ -58,14 +67,18 @@ function App() {
 
 	return (
 		<div>
-			<div className='mb-5 absolute top-5 left-5 right-5 w-fit'>
+			<div className='mb-5 absolute top-5 left-[40%] right-5 w-fit'>
 				{userWallet &&
 					<div className='flex flex-col gap-y-2'>
-						<p className='bg-green-50 p-3 text-green-400 font-semibold rounded'>public: {userWallet.publicKey} </p>
-						<p className='bg-green-50 p-3 text-green-400 font-semibold rounded'>private: {userWallet.privateKey} </p>
-						<p className='bg-green-50 p-3 text-green-400 font-semibold rounded'>Wallet Address: {userWallet.address} </p>
-						<p className='bg-green-50 p-3 text-green-400 font-semibold rounded'>Phrase: {userWallet.mnemonic.phrase} </p>
-						<p className='bg-green-50 p-3 text-green-400 font-semibold rounded'>Balance: {userBalance} </p>
+
+						<h3>Wallet Balance: {userBalance}</h3>
+							<p onClick={() => copyToClipboard(userWallet.publicKey)} className='bg-green-50 p-3 text-green-400 font-semibold rounded cursor-pointer'>{userWallet.publicKey.slice(0, 10)}...</p>
+
+						<div className='flex gap-3 w-full justify-between'>
+							<p onClick={() => copyToClipboard(userWallet.privateKey)} className='bg-green-50 p-3 text-green-400 font-semibold rounded cursor-pointer'>private</p>
+							<p onClick={() => copyToClipboard(userWallet.address)} className='bg-green-50 p-3 text-green-400 font-semibold rounded cursor-pointer'>Wallet Address</p>
+							<p onClick={() => copyToClipboard(userWallet.mnemonic.phrase)} className='bg-green-50 p-3 text-green-400 font-semibold rounded cursor-pointer'>Phrase</p>
+						</div>
 					</div>
 				}
 
